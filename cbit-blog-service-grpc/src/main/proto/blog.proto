@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package model;
+
+option java_package = "cbit.service.grpc.blog.model";
+option java_outer_classname = "BlogProto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service BlogsService {
+  rpc FindByPesel(google.protobuf.StringValue) returns (Blog) {}
+  rpc FindById(google.protobuf.Int32Value) returns (Blog) {}
+  rpc FindAll(google.protobuf.Empty) returns (Blogs) {}
+  rpc AddBlog(Blog) returns (Blog) {}
+}
+
+service ProfilesService {
+  rpc FindByNumber(google.protobuf.StringValue) returns (Profile) {}
+  rpc FindByBlog(google.protobuf.Int32Value) returns (Profiles) {}
+  rpc FindAll(google.protobuf.Empty) returns (Profiles) {}
+  rpc AddProfile(Profile) returns (Profile) {}
+}
+
+message Profiles {
+  repeated Profile profile = 1;
+}
+
+message Profile {
+  int32 id = 1;
+  string number = 2;
+  int32 blog_id = 3;
+}
+
+message Blog {
+  int32 id = 1;
+  string pesel = 2;
+  string name = 3;
+  BlogType type = 4;
+  repeated Profile profiles = 5;
+  enum BlogType {
+    INDIVIDUAL = 0;
+    COMPANY = 1;
+  }
+}
+
+message Blogs {
+  repeated Blog blogs = 1;
+}

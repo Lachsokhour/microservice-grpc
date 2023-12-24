@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package model;
+
+option java_package = "cbit.services.grpc.profile.model";
+option java_outer_classname = "ProfileProto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service ProfilesService {
+  rpc FindByNumber(google.protobuf.StringValue) returns (Profile) {}
+  rpc FindByCustomer(google.protobuf.Int32Value) returns (Profiles) {}
+  rpc FindAll(google.protobuf.Empty) returns (Profiles) {}
+  rpc AddProfile(Profile) returns (Profile) {}
+}
+
+message Profiles {
+  repeated Profile profile = 1;
+}
+
+message Profile {
+  int32 id = 1;
+  string number = 2;
+  int32 customer_id = 3;
+}
